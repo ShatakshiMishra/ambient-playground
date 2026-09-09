@@ -1,4 +1,4 @@
-# ztunnel-experiments
+# ambient-playground
 
 A hands-on lab repo for **experimenting with Istio's `ztunnel`** — the per-node
 zero-trust tunnel proxy at the heart of **Istio ambient mesh**.
@@ -105,7 +105,7 @@ Each folder's `README.md` is standalone.
 ## Repo layout
 
 ```
-ztunnel-experiments/
+ambient-playground/
 ├── README.md
 ├── Makefile                     # convenience targets
 ├── docs/                        # conceptual background

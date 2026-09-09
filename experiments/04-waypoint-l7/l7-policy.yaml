@@ -1,0 +1,23 @@
+# L7 AuthorizationPolicy — enforced by the WAYPOINT (Envoy), not ztunnel.
+#
+# ztunnel is L4-only, so a rule that inspects HTTP methods/paths requires a
+# waypoint in the path. This policy allows only GET requests to httpbin and
+# denies everything else (e.g. DELETE, POST).
+#
+# It targets the waypoint via targetRefs (Gateway API), which is how ambient
+# attaches L7 policy to the waypoint that fronts a namespace/service.
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin-get-only
+  namespace: ambient-demo
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: waypoint
+  action: ALLOW
+  rules:
+    - to:
+        - operation:
+            methods: ["GET"]

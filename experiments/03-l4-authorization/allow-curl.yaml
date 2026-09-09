@@ -1,0 +1,21 @@
+# L4 AuthorizationPolicy enforced by ztunnel (no waypoint, no sidecar).
+#
+# Allows requests to httpbin ONLY from the "curl" service account in the
+# ambient-demo namespace. Because this policy has no L7 conditions (paths,
+# methods, headers), ztunnel can enforce it entirely at L4 using the peer's
+# authenticated SPIFFE identity. Any source that is not curl is denied.
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin-allow-curl
+  namespace: ambient-demo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - "cluster.local/ns/ambient-demo/sa/curl"
